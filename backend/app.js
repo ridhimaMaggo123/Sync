@@ -42,5 +42,11 @@ app.use('/api/analyze', require('./routes/analyze'));
 app.use('/api/exercise', require('./routes/exercise'));
 app.use('/api/cycle', require('./routes/cycle'));
 app.use('/api/report', require('./routes/report'));
+app.use('/api/notifications', require('./routes/notifications'));
+
+// Start notification job
+if (process.env.NODE_ENV !== 'test') {
+  require('./jobs/notificationJob');
+}
 
 module.exports = app;

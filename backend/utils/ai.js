@@ -45,5 +45,30 @@ async function generateExercisePlan({ goals, preferences, cycleData }) {
   }
 }
 
-module.exports = { analyzeSymptoms };
+async function analyzeWithGemini(prompt) {
+  try {
+    if (!GEMINI_API_KEY) {
+      console.warn('GEMINI_API_KEY not configured, returning fallback response');
+      return 'Great progress on your health journey! Keep up the consistent exercise routine and remember to listen to your body. Consider adding more variety to your workouts and maintaining a balanced diet to support your hormonal health.';
+    }
+
+    const body = {
+      contents: [{ parts: [{ text: prompt }] }],
+    };
+
+    const { data } = await axios.post(
+      `${GEMINI_API_URL}?key=${GEMINI_API_KEY}`,
+      body,
+      { headers: { 'Content-Type': 'application/json' } }
+    );
+
+    const aiText = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    return aiText || 'Keep up the great work on your health journey!';
+  } catch (error) {
+    console.error('Error calling Gemini API:', error.message);
+    return 'Great progress on your health journey! Keep up the consistent exercise routine and remember to listen to your body. Consider adding more variety to your workouts and maintaining a balanced diet to support your hormonal health.';
+  }
+}
+
+module.exports = { analyzeSymptoms, analyzeWithGemini };
 module.exports.generateExercisePlan = generateExercisePlan; 

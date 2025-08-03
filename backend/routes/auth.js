@@ -1,70 +1,163 @@
 const express = require('express');
-const bcrypt = require('bcrypt');
 const User = require('../models/User');
-
+const { requireAuth, requireGuest } = require('../middleware/authMiddleware');
 const router = express.Router();
 
-// Signup
-router.post('/signup', async (req, res) => {
+// POST /api/auth/register
+router.post('/register', requireGuest, async (req, res) => {
   try {
     const { name, email, password } = req.body;
+
+    // Validation
     if (!name || !email || !password) {
-      return res.status(400).json({ message: 'All fields are required.' });
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide name, email, and password'
+      });
     }
-    const existingUser = await User.findOne({ email });
+
+    // Check if user already exists
+    const existingUser = await User.findOne({ email: email.toLowerCase() });
     if (existingUser) {
-      return res.status(409).json({ message: 'Email already registered.' });
+      return res.status(400).json({
+        success: false,
+        message: 'User with this email already exists'
+      });
     }
-    const passwordHash = await bcrypt.hash(password, 10);
-    const user = await User.create({ name, email, passwordHash });
-    req.session.userId = user._id;
-    res.status(201).json({ message: 'Signup successful', user: { name: user.name, email: user.email } });
-  } catch (err) {
-    res.status(500).json({ message: 'Server error', error: err.message });
+
+    // Create new user
+    const user = new User({
+      name,
+      email: email.toLowerCase(),
+      password
+    });
+
+    await user.save();
+
+    res.status(201).json({
+      success: true,
+      message: 'User registered successfully',
+      user: user.toJSON()
+    });
+
+  } catch (error) {
+    console.error('Registration error:', error);
+    
+    if (error.name === 'ValidationError') {
+      const messages = Object.values(error.errors).map(err => err.message);
+      return res.status(400).json({
+        success: false,
+        message: messages.join(', ')
+      });
+    }
+
+    res.status(500).json({
+      success: false,
+      message: 'Server error during registration'
+    });
   }
 });
 
-// Login
-router.post('/login', async (req, res) => {
+// POST /api/auth/login
+router.post('/login', requireGuest, async (req, res) => {
   try {
     const { email, password } = req.body;
+
+    // Validation
     if (!email || !password) {
-      return res.status(400).json({ message: 'All fields are required.' });
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide email and password'
+      });
     }
-    const user = await User.findOne({ email });
+
+    // Find user by email
+    const user = await User.findOne({ email: email.toLowerCase() });
     if (!user) {
-      return res.status(401).json({ message: 'Invalid credentials.' });
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid email or password'
+      });
     }
-    const isMatch = await bcrypt.compare(password, user.passwordHash);
-    if (!isMatch) {
-      return res.status(401).json({ message: 'Invalid credentials.' });
+
+    // Check password
+    const isPasswordValid = await user.comparePassword(password);
+    if (!isPasswordValid) {
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid email or password'
+      });
     }
+
+    // Create session
     req.session.userId = user._id;
-    res.json({ message: 'Login successful', user: { name: user.name, email: user.email } });
-  } catch (err) {
-    res.status(500).json({ message: 'Server error', error: err.message });
+    req.session.user = user.toJSON();
+
+    res.json({
+      success: true,
+      message: 'Login successful',
+      user: user.toJSON()
+    });
+
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error during login'
+    });
   }
 });
 
-// Logout
-router.post('/logout', (req, res) => {
+// GET /api/auth/logout
+router.get('/logout', requireAuth, (req, res) => {
   req.session.destroy((err) => {
-    if (err) return res.status(500).json({ message: 'Logout failed' });
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        message: 'Error logging out'
+      });
+    }
+    
     res.clearCookie('connect.sid');
-    res.json({ message: 'Logged out' });
+    res.json({
+      success: true,
+      message: 'Logged out successfully'
+    });
   });
 });
 
-// Profile
-router.get('/profile', async (req, res) => {
-  if (!req.session.userId) {
-    return res.status(401).json({ message: 'Not authenticated' });
+// GET /api/auth/me
+router.get('/me', requireAuth, async (req, res) => {
+  try {
+    const user = await User.findById(req.session.userId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+
+    res.json({
+      success: true,
+      user: user.toJSON()
+    });
+
+  } catch (error) {
+    console.error('Get user error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error'
+    });
   }
-  const user = await User.findById(req.session.userId).select('-passwordHash');
-  if (!user) {
-    return res.status(404).json({ message: 'User not found' });
-  }
-  res.json({ user });
+});
+
+// GET /api/auth/status
+router.get('/status', (req, res) => {
+  res.json({
+    success: true,
+    isAuthenticated: !!req.session.userId,
+    user: req.session.user || null
+  });
 });
 
 module.exports = router; 
