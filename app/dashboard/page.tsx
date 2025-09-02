@@ -30,46 +30,36 @@ const healthData = [
 ]
 
 const riskData = [
-  { name: "Low Risk", value: 60, color: "#10B981" },
-  { name: "Medium Risk", value: 30, color: "#F59E0B" },
-  { name: "High Risk", value: 10, color: "#EF4444" },
+  { name: "Low Risk", value: 60, color: "#F472B6" },
+  { name: "Medium Risk", value: 30, color: "#A855F7" },
+  { name: "High Risk", value: 10, color: "#6366F1" },
 ]
 
 export default function Dashboard() {
   return (
     <>
       <WellnessNavbar />
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 pt-20 pb-8">
-        {/* Background particles */}
-        <div className="floating-particles">
-          {[...Array(20)].map((_, i) => (
-            <div
-              key={i}
-              className="particle"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                width: `${Math.random() * 10 + 5}px`,
-                height: `${Math.random() * 10 + 5}px`,
-                animationDelay: `${Math.random() * 6}s`,
-                animationDuration: `${Math.random() * 3 + 4}s`,
-              }}
-            />
-          ))}
+      <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-50 dark:from-pink-900/20 dark:via-purple-900/20 dark:to-indigo-900/20 pt-20 pb-8 relative overflow-hidden">
+        {/* Floating Elements */}
+        <div className="floating-elements">
+          <div className="floating-shape"></div>
+          <div className="floating-shape"></div>
+          <div className="floating-shape"></div>
+          <div className="floating-shape"></div>
         </div>
 
         <div className="container mx-auto px-4">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
             <div className="flex justify-between items-center mb-8">
               <div>
-                <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                <h1 className="text-4xl font-bold bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent">
                   Health Dashboard
                 </h1>
                 <p className="text-gray-600 dark:text-gray-300 mt-2">Track your hormonal health journey</p>
               </div>
 
               <Button
-                className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
+                className="pastel-button"
                 onClick={async () => {
                   try {
                     const res = await fetch("/api/report/download", {
@@ -106,16 +96,16 @@ export default function Dashboard() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
               >
-                <Card className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border-0 shadow-lg">
+                <Card className="glass-card border-0 shadow-lg">
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">Overall Health</CardTitle>
-                    <Heart className="h-4 w-4 text-green-500" />
+                    <Heart className="h-4 w-4 text-pink-400" />
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold text-green-600">85%</div>
+                    <div className="text-2xl font-bold text-pink-500">85%</div>
                     <div className="flex items-center mt-2">
                       <Progress value={85} className="flex-1" />
-                      <Badge variant="secondary" className="ml-2 bg-green-100 text-green-800">
+                      <Badge variant="secondary" className="ml-2 bg-pink-100 text-pink-700">
                         Good
                       </Badge>
                     </div>
@@ -128,16 +118,16 @@ export default function Dashboard() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                <Card className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border-0 shadow-lg">
+                <Card className="glass-card border-0 shadow-lg">
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">Risk Level</CardTitle>
-                    <AlertTriangle className="h-4 w-4 text-yellow-500" />
+                    <AlertTriangle className="h-4 w-4 text-purple-400" />
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold text-yellow-600">Low</div>
+                    <div className="text-2xl font-bold text-purple-500">Low</div>
                     <div className="flex items-center mt-2">
                       <Progress value={25} className="flex-1" />
-                      <Badge variant="secondary" className="ml-2 bg-yellow-100 text-yellow-800">
+                      <Badge variant="secondary" className="ml-2 bg-purple-100 text-purple-700">
                         Monitor
                       </Badge>
                     </div>
@@ -150,16 +140,16 @@ export default function Dashboard() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
               >
-                <Card className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border-0 shadow-lg">
+                <Card className="glass-card border-0 shadow-lg">
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">Improvement</CardTitle>
-                    <TrendingUp className="h-4 w-4 text-blue-500" />
+                    <TrendingUp className="h-4 w-4 text-indigo-400" />
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold text-blue-600">+12%</div>
+                    <div className="text-2xl font-bold text-indigo-500">+12%</div>
                     <div className="flex items-center mt-2">
                       <Progress value={70} className="flex-1" />
-                      <Badge variant="secondary" className="ml-2 bg-blue-100 text-blue-800">
+                      <Badge variant="secondary" className="ml-2 bg-indigo-100 text-indigo-700">
                         Rising
                       </Badge>
                     </div>
@@ -175,7 +165,7 @@ export default function Dashboard() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
               >
-                <Card className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border-0 shadow-lg">
+                <Card className="glass-card border-0 shadow-lg">
                   <CardHeader>
                     <CardTitle>Health Trends</CardTitle>
                     <CardDescription>Your progress over the last 6 months</CardDescription>
@@ -187,9 +177,9 @@ export default function Dashboard() {
                         <XAxis dataKey="month" />
                         <YAxis />
                         <Tooltip />
-                        <Line type="monotone" dataKey="stress" stroke="#EF4444" strokeWidth={2} name="Stress Level" />
-                        <Line type="monotone" dataKey="energy" stroke="#10B981" strokeWidth={2} name="Energy Level" />
-                        <Line type="monotone" dataKey="sleep" stroke="#3B82F6" strokeWidth={2} name="Sleep Quality" />
+                        <Line type="monotone" dataKey="stress" stroke="#F472B6" strokeWidth={2} name="Stress Level" />
+                        <Line type="monotone" dataKey="energy" stroke="#A855F7" strokeWidth={2} name="Energy Level" />
+                        <Line type="monotone" dataKey="sleep" stroke="#6366F1" strokeWidth={2} name="Sleep Quality" />
                       </LineChart>
                     </ResponsiveContainer>
                   </CardContent>
@@ -201,7 +191,7 @@ export default function Dashboard() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
               >
-                <Card className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border-0 shadow-lg">
+                <Card className="glass-card border-0 shadow-lg">
                   <CardHeader>
                     <CardTitle>Risk Distribution</CardTitle>
                     <CardDescription>Current health risk assessment</CardDescription>

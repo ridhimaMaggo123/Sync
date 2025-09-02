@@ -48,28 +48,28 @@ const achievements = [
     description: "Completed symptom tracking for 7 consecutive days",
     icon: "🔥",
     date: "2 days ago",
-    color: "bg-orange-100 text-orange-800",
+    color: "bg-pink-100 text-pink-800 dark:bg-pink-900/30 dark:text-pink-200",
   },
   {
     title: "Stress Reducer",
     description: "Reduced stress levels by 50% over 8 weeks",
     icon: "🧘",
     date: "1 week ago",
-    color: "bg-blue-100 text-blue-800",
+    color: "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-200",
   },
   {
     title: "Sleep Champion",
     description: "Improved sleep quality by 70%",
     icon: "😴",
     date: "3 days ago",
-    color: "bg-purple-100 text-purple-800",
+    color: "bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-200",
   },
   {
     title: "Energy Booster",
     description: "Doubled energy levels from baseline",
     icon: "⚡",
     date: "5 days ago",
-    color: "bg-yellow-100 text-yellow-800",
+    color: "bg-pink-100 text-pink-800 dark:bg-pink-900/30 dark:text-pink-200",
   },
 ]
 
@@ -79,28 +79,28 @@ const goals = [
     current: 40,
     target: 30,
     progress: 75,
-    color: "bg-red-500",
+    color: "bg-gradient-to-r from-pink-400 to-pink-500",
   },
   {
     title: "Increase Energy to 90%",
     current: 80,
     target: 90,
     progress: 89,
-    color: "bg-green-500",
+    color: "bg-gradient-to-r from-purple-400 to-purple-500",
   },
   {
     title: "Maintain Sleep at 85%+",
     current: 85,
     target: 85,
     progress: 100,
-    color: "bg-blue-500",
+    color: "bg-gradient-to-r from-indigo-400 to-indigo-500",
   },
   {
     title: "Improve Mood to 85%",
     current: 78,
     target: 85,
     progress: 92,
-    color: "bg-purple-500",
+    color: "bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400",
   },
 ]
 
@@ -108,37 +108,28 @@ export default function ProgressPage() {
   return (
     <>
       <WellnessNavbar />
-      <div className="min-h-screen bg-gradient-to-br from-teal-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-teal-900 dark:to-blue-900 pt-20 pb-8">
-        {/* Background particles */}
-        <div className="floating-particles">
-          {[...Array(15)].map((_, i) => (
-            <div
-              key={i}
-              className="particle"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                width: `${Math.random() * 8 + 4}px`,
-                height: `${Math.random() * 8 + 4}px`,
-                animationDelay: `${Math.random() * 6}s`,
-                animationDuration: `${Math.random() * 3 + 4}s`,
-              }}
-            />
-          ))}
+      <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-50 dark:from-pink-900/20 dark:via-purple-900/20 dark:to-indigo-900/20 pt-20 pb-8 relative overflow-hidden">
+        {/* Floating pastel shapes */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 left-10 w-32 h-32 bg-pink-200/30 rounded-full blur-xl animate-pulse"></div>
+          <div className="absolute top-40 right-20 w-24 h-24 bg-purple-200/30 rounded-full blur-lg animate-bounce"></div>
+          <div className="absolute bottom-32 left-1/4 w-40 h-40 bg-indigo-200/20 rounded-full blur-2xl animate-pulse"></div>
+          <div className="absolute bottom-20 right-1/3 w-28 h-28 bg-pink-300/25 rounded-full blur-xl animate-bounce"></div>
+          <div className="absolute top-1/3 left-1/2 w-36 h-36 bg-purple-300/20 rounded-full blur-2xl animate-pulse"></div>
         </div>
 
         <div className="container mx-auto px-4">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
             <div className="flex flex-col sm:flex-row justify-between items-center mb-8 text-center sm:text-left">
               <div>
-                <h1 className="text-4xl font-bold bg-gradient-to-r from-teal-600 to-blue-600 bg-clip-text text-transparent">
+                <h1 className="text-4xl font-bold bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
                   Progress Tracking
                 </h1>
                 <p className="text-gray-600 dark:text-gray-300 mt-2">Monitor your hormonal health journey over time</p>
               </div>
 
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button className="bg-gradient-to-r from-teal-500 to-blue-500 hover:from-teal-600 hover:to-blue-600 mt-4 sm:mt-0">
+                <Button className="bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 hover:from-pink-600 hover:via-purple-600 hover:to-indigo-600 text-white shadow-lg mt-4 sm:mt-0">
                   <Download className="w-4 h-4 mr-2" />
                   Export Report
                 </Button>
@@ -168,34 +159,34 @@ export default function ProgressPage() {
                         <Line
                           type="monotone"
                           dataKey="energy"
-                          stroke="#10B981"
-                          strokeWidth={2}
+                          stroke="#F472B6"
+                          strokeWidth={3}
                           name="Energy"
-                          activeDot={{ r: 8 }}
+                          activeDot={{ r: 8, fill: '#F472B6' }}
                         />
                         <Line
                           type="monotone"
                           dataKey="mood"
-                          stroke="#8B5CF6"
-                          strokeWidth={2}
+                          stroke="#A855F7"
+                          strokeWidth={3}
                           name="Mood"
-                          activeDot={{ r: 8 }}
+                          activeDot={{ r: 8, fill: '#A855F7' }}
                         />
                         <Line
                           type="monotone"
                           dataKey="sleep"
-                          stroke="#3B82F6"
-                          strokeWidth={2}
+                          stroke="#6366F1"
+                          strokeWidth={3}
                           name="Sleep"
-                          activeDot={{ r: 8 }}
+                          activeDot={{ r: 8, fill: '#6366F1' }}
                         />
                         <Line
                           type="monotone"
                           dataKey="stress"
-                          stroke="#EF4444"
-                          strokeWidth={2}
+                          stroke="#EC4899"
+                          strokeWidth={3}
                           name="Stress"
-                          activeDot={{ r: 8 }}
+                          activeDot={{ r: 8, fill: '#EC4899' }}
                         />
                       </LineChart>
                     </ResponsiveContainer>
@@ -222,9 +213,9 @@ export default function ProgressPage() {
                         <Radar
                           name="Current Score"
                           dataKey="A"
-                          stroke="#8884d8"
-                          fill="#8884d8"
-                          fillOpacity={0.6}
+                          stroke="#A855F7"
+                          fill="#F472B6"
+                          fillOpacity={0.3}
                           animationDuration={1500}
                         />
                         <Tooltip />
@@ -246,7 +237,7 @@ export default function ProgressPage() {
                 <Card className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border-0 shadow-lg h-full">
                   <CardHeader>
                     <CardTitle className="flex items-center">
-                      <Target className="w-5 h-5 mr-2 text-blue-500" />
+                      <Target className="w-5 h-5 mr-2 text-purple-500" />
                       Your Goals
                     </CardTitle>
                     <CardDescription>Track your progress towards your health objectives</CardDescription>
@@ -266,7 +257,7 @@ export default function ProgressPage() {
                             {goal.current}% / {goal.target}%
                           </span>
                         </div>
-                        <Progress value={goal.progress} className="h-2" indicatorColor={goal.color} />
+                        <Progress value={goal.progress} className="h-2" />
                       </motion.div>
                     ))}
                   </CardContent>
@@ -281,7 +272,7 @@ export default function ProgressPage() {
                 <Card className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border-0 shadow-lg h-full">
                   <CardHeader>
                     <CardTitle className="flex items-center">
-                      <Trophy className="w-5 h-5 mr-2 text-yellow-500" />
+                      <Trophy className="w-5 h-5 mr-2 text-pink-500" />
                       Achievements
                     </CardTitle>
                     <CardDescription>Milestones you've reached on your journey</CardDescription>
@@ -318,7 +309,7 @@ export default function ProgressPage() {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="mt-12 text-center"
             >
-              <Card className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border-0 shadow-lg max-w-2xl mx-auto">
+              <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border border-purple-100/50 dark:border-pink-500/20 shadow-xl max-w-2xl mx-auto">
                 <CardHeader>
                   <CardTitle className="text-xl">Need More Insights?</CardTitle>
                   <CardDescription>
@@ -327,7 +318,7 @@ export default function ProgressPage() {
                 </CardHeader>
                 <CardContent>
                   <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                    <Button className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white">
+                    <Button className="bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 hover:from-pink-600 hover:via-purple-600 hover:to-indigo-600 text-white shadow-lg">
                       <Search className="w-4 h-4 mr-2" />
                       Go to Symptom Analyzer
                     </Button>

@@ -10,73 +10,75 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
+    /* Soft Pastel Theme */
+    --background: 320 50% 97%; /* #FDF2F8 - soft pastel pink background */
+    --foreground: 340 15% 25%; /* #463338 - warm dark text */
+    --card: 315 100% 99%; /* #FFFBFC - very light pink cards */
+    --card-foreground: 340 15% 25%; /* #463338 - warm dark text */
+    --popover: 315 100% 99%;
+    --popover-foreground: 340 15% 25%;
+    --primary: 330 81% 60%; /* #E879A6 - soft pink primary */
+    --primary-foreground: 0 0% 100%; /* white text on primary */
+    --secondary: 320 60% 92%; /* #F3E8FF - light lavender secondary */
+    --secondary-foreground: 340 15% 25%;
+    --muted: 315 40% 95%; /* #F9F5F6 - very light muted */
+    --muted-foreground: 340 10% 50%; /* #7C6F72 - medium gray */
+    --accent: 280 60% 90%; /* #E9D5FF - soft purple accent */
+    --accent-foreground: 340 15% 25%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --border: 320 30% 88%; /* #E8D5E0 - soft pink borders */
+    --input: 315 100% 99%; /* very light pink input backgrounds */
+    --ring: 330 81% 60%; /* soft pink focus ring */
+    --chart-1: 330 81% 60%; /* soft pink charts */
+    --chart-2: 280 60% 70%; /* soft purple */
+    --chart-3: 200 70% 75%; /* soft blue */
+    --chart-4: 160 60% 70%; /* soft green */
+    --chart-5: 45 80% 75%; /* soft yellow */
+    --radius: 1rem;
+    --sidebar-background: 315 100% 99%;
+    --sidebar-foreground: 340 15% 25%;
+    --sidebar-primary: 330 81% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 320 60% 92%;
+    --sidebar-accent-foreground: 340 15% 25%;
+    --sidebar-border: 320 30% 88%;
+    --sidebar-ring: 330 81% 60%;
   }
   .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
+    /* Soft Pastel Dark Mode */
+    --background: 340 30% 8%; /* #1A0F14 - dark warm background */
+    --foreground: 320 20% 90%; /* #E8D5E0 - soft light text */
+    --card: 340 25% 12%; /* #241A1F - dark warm cards */
+    --card-foreground: 320 20% 90%;
+    --popover: 340 25% 12%;
+    --popover-foreground: 320 20% 90%;
+    --primary: 330 70% 65%; /* #E879A6 - soft pink primary */
+    --primary-foreground: 340 30% 8%;
+    --secondary: 320 30% 20%; /* #3D2B33 - dark warm secondary */
+    --secondary-foreground: 320 20% 90%;
+    --muted: 340 20% 15%; /* #2B1F24 - muted dark warm */
+    --muted-foreground: 320 15% 65%; /* #A68B94 - medium warm gray */
+    --accent: 280 40% 25%; /* #3D2B47 - dark purple accent */
+    --accent-foreground: 320 20% 90%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --border: 340 20% 18%; /* #33242B - dark warm borders */
+    --input: 340 25% 12%; /* #241A1F - dark input backgrounds */
+    --ring: 330 70% 65%; /* soft pink focus ring */
+    --chart-1: 330 70% 65%; /* soft pink charts */
+    --chart-2: 280 60% 70%; /* soft purple */
+    --chart-3: 200 70% 75%; /* soft blue */
+    --chart-4: 160 60% 70%; /* soft green */
+    --chart-5: 45 80% 75%; /* soft yellow */
+    --sidebar-background: 340 25% 12%;
+    --sidebar-foreground: 320 20% 90%;
+    --sidebar-primary: 330 70% 65%;
+    --sidebar-primary-foreground: 340 30% 8%;
+    --sidebar-accent: 320 30% 20%;
+    --sidebar-accent-foreground: 320 20% 90%;
+    --sidebar-border: 340 20% 18%;
+    --sidebar-ring: 330 70% 65%;
   }
 }
 
@@ -86,5 +88,109 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  /* Soft Pastel Button Gradients */
+  .btn-gradient {
+    background: linear-gradient(135deg, #E879A6, #C084FC);
+    color: white;
+    transition: all 0.3s ease;
+    border-radius: 1rem;
+    box-shadow: 0 4px 20px rgba(232, 121, 166, 0.2);
+  }
+  
+  .btn-gradient:hover {
+    background: linear-gradient(135deg, #DB5C8A, #A855F7);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(232, 121, 166, 0.3);
+  }
+  
+  .btn-gradient:active {
+    transform: translateY(0);
+  }
+  
+  /* Floating Elements for Pastel Theme */
+  .floating-elements {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  .floating-shape {
+    position: absolute;
+    border-radius: 50%;
+    background: linear-gradient(45deg, rgba(232, 121, 166, 0.1), rgba(192, 132, 252, 0.1));
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .floating-shape:nth-child(1) {
+    width: 80px;
+    height: 80px;
+    top: 10%;
+    left: 10%;
+    animation-delay: 0s;
+  }
+  
+  .floating-shape:nth-child(2) {
+    width: 60px;
+    height: 60px;
+    top: 20%;
+    right: 15%;
+    animation-delay: 2s;
+  }
+  
+  .floating-shape:nth-child(3) {
+    width: 100px;
+    height: 100px;
+    bottom: 20%;
+    left: 20%;
+    animation-delay: 4s;
+  }
+  
+  .floating-shape:nth-child(4) {
+    width: 70px;
+    height: 70px;
+    bottom: 30%;
+    right: 10%;
+    animation-delay: 1s;
+  }
+  
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-20px) rotate(180deg);
+    }
+  }
+  
+  /* Glass morphism effect */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 32px rgba(232, 121, 166, 0.1);
+  }
+  
+  /* Improved form inputs */
+  .pastel-input {
+    background: rgba(255, 255, 255, 0.8);
+    border: 2px solid rgba(232, 121, 166, 0.2);
+    border-radius: 1rem;
+    padding: 1rem;
+    transition: all 0.3s ease;
+  }
+  
+  .pastel-input:focus {
+    border-color: rgba(232, 121, 166, 0.5);
+    box-shadow: 0 0 0 3px rgba(232, 121, 166, 0.1);
+    outline: none;
   }
 }

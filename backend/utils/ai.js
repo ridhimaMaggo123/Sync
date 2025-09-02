@@ -4,22 +4,34 @@ const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 async function analyzeSymptoms({ symptoms, lifestyle, cycleData }) {
-  // Compose prompt for Gemini
-  const prompt = `Analyze the following symptoms and lifestyle data for hormonal imbalances.\nSymptoms: ${JSON.stringify(symptoms)}\nLifestyle: ${JSON.stringify(lifestyle)}\nCycle Data: ${JSON.stringify(cycleData || {})}\nProvide: 1) Suspected hormonal imbalance (estrogen, cortisol, thyroid, etc.), 2) Risk level (low, medium, high), 3) Suggested natural remedies (foods, teas, supplements), 4) Hormone-friendly exercises.`;
+  try {
+    const prompt = `Analyze the following symptoms and lifestyle data for hormonal imbalances.\nSymptoms: ${JSON.stringify(symptoms)}\nLifestyle: ${JSON.stringify(lifestyle)}\nCycle Data: ${JSON.stringify(cycleData || {})}\nProvide in JSON format: { "analysis": "", "riskLevel": "", "remedies": [], "exercises": [] }`;
 
-  const body = {
-    contents: [{ parts: [{ text: prompt }] }],
-  };
+    const body = {
+      contents: [{ parts: [{ text: prompt }] }],
+    };
 
-  const { data } = await axios.post(
-    `${GEMINI_API_URL}?key=${GEMINI_API_KEY}`,
-    body,
-    { headers: { 'Content-Type': 'application/json' } }
-  );
+    const { data } = await axios.post(
+      `${GEMINI_API_URL}?key=${GEMINI_API_KEY}`,
+      body,
+      { headers: { 'Content-Type': 'application/json' } }
+    );
 
-  // Parse and return AI response
-  const aiText = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-  return aiText;
+    const aiText = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    try {
+      return JSON.parse(aiText);
+    } catch {
+      return {
+        analysis: aiText,
+        riskLevel: 'unknown',
+        remedies: [],
+        exercises: []
+      };
+    }
+  } catch (error) {
+    console.error('Analysis error:', error);
+    throw new Error('Failed to analyze symptoms');
+  }
 }
 
 async function generateExercisePlan({ goals, preferences, cycleData }) {
@@ -70,5 +82,8 @@ async function analyzeWithGemini(prompt) {
   }
 }
 
-module.exports = { analyzeSymptoms, analyzeWithGemini };
-module.exports.generateExercisePlan = generateExercisePlan; 
+module.exports = { 
+  analyzeSymptoms, 
+  generateExercisePlan,
+  analyzeWithGemini 
+};

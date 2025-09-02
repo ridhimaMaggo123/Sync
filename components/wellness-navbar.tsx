@@ -29,7 +29,7 @@ import NotificationBell from "./notification-bell"
 const navItems = [
   { href: "/symptom-analyzer", label: "Analyzer", icon: Search },
   { href: "/dashboard", label: "Dashboard", icon: BarChart3 },
-  { href: "/period-tracking", label: "Period", icon: Calendar },
+  { href: "/period-tracker", label: "Period", icon: Calendar },
   { href: "/remedies", label: "Remedies", icon: Leaf },
   { href: "/exercises", label: "Exercises", icon: Activity },
   { href: "/progress", label: "Progress", icon: TrendingUp },

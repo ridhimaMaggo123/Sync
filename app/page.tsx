@@ -34,7 +34,7 @@ const features = [
     title: "AI Symptom Analyzer",
     description: "Advanced AI analysis of your symptoms and lifestyle patterns",
     href: "/symptom-analyzer",
-    color: "from-blue-500 to-purple-500",
+    color: "from-pink-500 via-purple-500 to-indigo-500",
     benefits: ["Instant AI analysis", "Personalized insights", "Risk assessment"],
   },
   {
@@ -42,7 +42,7 @@ const features = [
     title: "Health Dashboard",
     description: "Beautiful charts and comprehensive health tracking",
     href: "/dashboard",
-    color: "from-purple-500 to-pink-500",
+    color: "from-purple-500 via-pink-500 to-indigo-500",
     benefits: ["Real-time tracking", "Progress visualization", "Trend analysis"],
   },
   {
@@ -50,7 +50,7 @@ const features = [
     title: "Natural Remedies",
     description: "Evidence-based herbal solutions and supplements",
     href: "/remedies",
-    color: "from-green-500 to-teal-500",
+    color: "from-pink-400 via-purple-400 to-indigo-400",
     benefits: ["Evidence-based remedies", "Usage guidelines", "Safety information"],
   },
   {
@@ -58,7 +58,7 @@ const features = [
     title: "Exercise Programs",
     description: "Hormone-balancing workouts and yoga sequences",
     href: "/exercises",
-    color: "from-orange-500 to-red-500",
+    color: "from-purple-400 via-pink-400 to-indigo-400",
     benefits: ["Guided workouts", "Hormone-specific exercises", "Progress tracking"],
   },
   {
@@ -66,7 +66,7 @@ const features = [
     title: "Progress Tracking",
     description: "Long-term health monitoring with detailed analytics",
     href: "/progress",
-    color: "from-teal-500 to-blue-500",
+    color: "from-indigo-400 via-purple-400 to-pink-400",
     benefits: ["Long-term tracking", "Achievement system", "Export reports"],
   },
 ]
@@ -127,14 +127,14 @@ export default function Home() {
       {!showSplash && (
         <>
           <WellnessNavbar />
-          <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900">
+          <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-50 dark:from-pink-900/20 dark:via-purple-900/20 dark:to-indigo-900/20">
             {/* Animated Background Elements */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none">
               {/* Floating Orbs */}
               {[...Array(8)].map((_, i) => (
                 <motion.div
                   key={i}
-                  className="absolute rounded-full bg-gradient-to-r from-purple-400/20 to-pink-400/20 blur-xl"
+                  className="absolute rounded-full bg-gradient-to-r from-pink-300/20 via-purple-300/20 to-indigo-300/20 blur-xl"
                   style={{
                     width: Math.random() * 300 + 100,
                     height: Math.random() * 300 + 100,
@@ -156,7 +156,7 @@ export default function Home() {
 
               {/* Mouse Follower */}
               <motion.div
-                className="absolute w-6 h-6 rounded-full bg-gradient-to-r from-purple-500/30 to-pink-500/30 blur-sm"
+                className="absolute w-6 h-6 rounded-full bg-gradient-to-r from-pink-400/30 via-purple-400/30 to-indigo-400/30 blur-sm"
                 animate={{
                   x: mousePosition.x - 12,
                   y: mousePosition.y - 12,
@@ -178,7 +178,7 @@ export default function Home() {
                         transition={{ type: "spring", stiffness: 300 }}
                       >
                         <motion.div
-                          className="w-20 h-20 rounded-full bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 flex items-center justify-center shadow-2xl"
+                          className="w-20 h-20 rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 flex items-center justify-center shadow-2xl"
                           animate={{
                             boxShadow: [
                               "0 0 30px rgba(147, 51, 234, 0.3)",
@@ -195,7 +195,7 @@ export default function Home() {
                         {[0, 120, 240].map((angle, index) => (
                           <motion.div
                             key={index}
-                            className="absolute w-3 h-3 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full"
+                            className="absolute w-3 h-3 bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 rounded-full"
                             style={{
                               top: "50%",
                               left: "50%",
@@ -217,7 +217,7 @@ export default function Home() {
                       </motion.div>
 
                       <motion.h1
-                        className="text-7xl font-bold bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 bg-clip-text text-transparent ml-6"
+                        className="text-7xl font-bold bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent ml-6"
                         animate={{
                           backgroundPosition: ["0%", "100%", "0%"],
                         }}
@@ -236,7 +236,7 @@ export default function Home() {
                   >
                     Your Hormonal Health
                     <motion.span
-                      className="block bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent"
+                      className="block bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent"
                       animate={{ scale: [1, 1.02, 1] }}
                       transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
                     >
@@ -265,7 +265,7 @@ export default function Home() {
                       <Button
                         size="lg"
                         onClick={handleGetStarted}
-                        className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-10 py-6 text-lg rounded-full shadow-2xl relative overflow-hidden"
+                        className="bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 hover:from-pink-600 hover:via-purple-600 hover:to-indigo-600 text-white px-10 py-6 text-lg rounded-full shadow-2xl relative overflow-hidden"
                       >
                         <motion.div
                           className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent"
@@ -283,7 +283,7 @@ export default function Home() {
                         size="lg"
                         variant="outline"
                         onClick={() => router.push("/dashboard")}
-                        className="border-2 border-purple-300 text-purple-600 hover:bg-purple-50 px-10 py-6 text-lg rounded-full shadow-lg"
+                        className="border-2 border-pink-300 text-pink-600 hover:bg-pink-50 dark:border-purple-400 dark:text-purple-400 dark:hover:bg-purple-900/20 px-10 py-6 text-lg rounded-full shadow-lg"
                       >
                         <BarChart3 className="w-5 h-5 mr-2" />
                         View Dashboard
@@ -311,14 +311,14 @@ export default function Home() {
                           whileHover={{ scale: 1.05, y: -5 }}
                         >
                           <motion.div
-                            className="w-16 h-16 mx-auto mb-3 rounded-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 flex items-center justify-center group-hover:from-purple-500/30 group-hover:to-pink-500/30 transition-all duration-300"
+                            className="w-16 h-16 mx-auto mb-3 rounded-full bg-gradient-to-r from-pink-400/20 via-purple-400/20 to-indigo-400/20 flex items-center justify-center group-hover:from-pink-400/30 group-hover:via-purple-400/30 group-hover:to-indigo-400/30 transition-all duration-300"
                             whileHover={{ rotate: 360 }}
                             transition={{ duration: 0.6 }}
                           >
-                            <Icon className="w-8 h-8 text-purple-500" />
+                            <Icon className="w-8 h-8 text-pink-500" />
                           </motion.div>
                           <motion.div
-                            className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent"
+                            className="text-3xl font-bold bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent"
                             animate={{ scale: [1, 1.05, 1] }}
                             transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, delay: index * 0.2 }}
                           >
@@ -371,7 +371,7 @@ export default function Home() {
                         className="group cursor-pointer perspective-1000"
                         onClick={() => router.push(feature.href)}
                       >
-                        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-0 shadow-xl hover:shadow-2xl transition-all duration-500 h-full overflow-hidden relative">
+                        <Card className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md border border-pink-100/50 dark:border-purple-500/20 shadow-xl hover:shadow-2xl transition-all duration-500 h-full overflow-hidden relative">
                           {/* Animated Background */}
                           <motion.div
                             className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}
@@ -391,7 +391,7 @@ export default function Home() {
                               <Icon className="w-10 h-10 text-white" />
                             </motion.div>
 
-                            <CardTitle className="text-xl group-hover:text-purple-600 transition-colors duration-300">
+                            <CardTitle className="text-xl group-hover:text-pink-600 transition-colors duration-300">
                               {feature.title}
                             </CardTitle>
                             <CardDescription className="text-gray-600 dark:text-gray-300">
@@ -435,7 +435,7 @@ export default function Home() {
 
             {/* Benefits Section with Parallax */}
             <motion.section
-              className="py-20 px-4 bg-white/30 dark:bg-gray-800/30 backdrop-blur-sm relative"
+              className="py-20 px-4 bg-white/40 dark:bg-gray-800/40 backdrop-blur-md relative"
               style={{ y: y2 }}
             >
               <div className="container mx-auto">
@@ -484,14 +484,14 @@ export default function Home() {
                       >
                         <FloatingElement delay={index * 0.5}>
                           <motion.div
-                            className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center shadow-2xl group-hover:shadow-purple-500/25"
+                            className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 flex items-center justify-center shadow-2xl group-hover:shadow-pink-500/25"
                             whileHover={{ rotate: [0, -10, 10, 0] }}
                             transition={{ duration: 0.6 }}
                           >
                             <Icon className="w-10 h-10 text-white" />
                           </motion.div>
                         </FloatingElement>
-                        <h3 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4 group-hover:text-purple-600 transition-colors">
+                        <h3 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4 group-hover:text-pink-600 transition-colors">
                           {benefit.title}
                         </h3>
                         <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{benefit.description}</p>
@@ -528,7 +528,7 @@ export default function Home() {
                       <Button
                         size="lg"
                         onClick={handleGetStarted}
-                        className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-12 py-6 text-lg rounded-full shadow-2xl relative overflow-hidden"
+                        className="bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 hover:from-pink-600 hover:via-purple-600 hover:to-indigo-600 text-white px-12 py-6 text-lg rounded-full shadow-2xl relative overflow-hidden"
                       >
                         <motion.div
                           className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent"
@@ -546,7 +546,7 @@ export default function Home() {
                         size="lg"
                         variant="outline"
                         onClick={() => router.push("/dashboard")}
-                        className="border-2 border-purple-300 text-purple-600 hover:bg-purple-50 px-12 py-6 text-lg rounded-full shadow-lg"
+                        className="border-2 border-pink-300 text-pink-600 hover:bg-pink-50 dark:border-purple-400 dark:text-purple-400 dark:hover:bg-purple-900/20 px-12 py-6 text-lg rounded-full shadow-lg"
                       >
                         <Download className="w-5 h-5 mr-2" />
                         View Sample Report
@@ -562,7 +562,7 @@ export default function Home() {
                 animate={{ rotate: 360 }}
                 transition={{ duration: 50, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
               >
-                <div className="w-full h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full blur-3xl transform scale-150" />
+                <div className="w-full h-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 rounded-full blur-3xl transform scale-150" />
               </motion.div>
             </section>
           </div>
