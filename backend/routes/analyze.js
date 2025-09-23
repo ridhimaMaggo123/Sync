@@ -31,4 +31,39 @@ router.post('/', requireAuth, async (req, res) => {
   }
 });
 
+// POST /api/analyze/save - persist provided AI insights
+router.post('/save', requireAuth, async (req, res) => {
+  try {
+    const { symptoms, lifestyle, cycleData, aiInsights } = req.body;
+    if (!symptoms || !lifestyle || !aiInsights) {
+      return res.status(400).json({ message: 'symptoms, lifestyle and aiInsights are required' });
+    }
+
+    const analysis = await SymptomAnalysis.create({
+      userId: req.session.userId,
+      inputData: { symptoms, lifestyle, cycleData },
+      aiInsights,
+    });
+    res.json({ message: 'Saved', analysisId: analysis._id });
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to save analysis', error: err.message });
+  }
+});
+
+// GET /api/analyze/latest - fetch latest analysis for current user
+router.get('/latest', requireAuth, async (req, res) => {
+  try {
+    const latest = await SymptomAnalysis.findOne({ userId: req.session.userId }).sort({ createdAt: -1 });
+    if (!latest) return res.status(404).json({ message: 'No analysis found' });
+    return res.json({
+      createdAt: latest.createdAt,
+      aiInsights: latest.aiInsights,
+      inputData: latest.inputData,
+      id: latest._id,
+    });
+  } catch (err) {
+    return res.status(500).json({ message: 'Failed to fetch latest analysis', error: err.message });
+  }
+});
+
 module.exports = router; 

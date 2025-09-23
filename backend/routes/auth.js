@@ -34,6 +34,19 @@ router.post('/register', requireGuest, async (req, res) => {
 
     await user.save();
 
+    // Create welcome notification for new user
+    try {
+      const Notification = require('../models/Notification');
+      await Notification.create({
+        userId: user._id,
+        message: `Welcome to Sync, ${user.name}! We will send timely reminders and insights tailored to you.`,
+        dueDate: new Date(),
+        sent: false,
+        type: 'general',
+        priority: 'low'
+      });
+    } catch (_e) {}
+
     res.status(201).json({
       success: true,
       message: 'User registered successfully',
@@ -56,6 +69,14 @@ router.post('/register', requireGuest, async (req, res) => {
       message: 'Server error during registration'
     });
   }
+});
+
+// Alias: POST /api/auth/signup -> behaves like /register
+router.post('/signup', requireGuest, async (req, res, next) => {
+  // Delegate to the same logic as /register by reusing the handler
+  // We simply call the next route handler by resetting the url to /register
+  req.url = '/register';
+  next();
 });
 
 // POST /api/auth/login
@@ -92,6 +113,19 @@ router.post('/login', requireGuest, async (req, res) => {
     // Create session
     req.session.userId = user._id;
     req.session.user = user.toJSON();
+
+    // Create quick login notification
+    try {
+      const Notification = require('../models/Notification');
+      await Notification.create({
+        userId: user._id,
+        message: `Welcome back, ${user.name}!` ,
+        dueDate: new Date(),
+        sent: false,
+        type: 'general',
+        priority: 'low'
+      });
+    } catch (_e) {}
 
     res.json({
       success: true,

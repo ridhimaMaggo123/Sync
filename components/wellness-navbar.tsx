@@ -23,7 +23,8 @@ import {
   Zap,
 } from "lucide-react" // Added Heart and Zap icons
 import { Button } from "@/components/ui/button"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useCurrentUser } from "@/hooks/use-current-user"
 import NotificationBell from "./notification-bell"
 
 const navItems = [
@@ -40,6 +41,14 @@ export default function WellnessNavbar() {
   const { theme, setTheme } = useTheme()
   const pathname = usePathname()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const { user } = useCurrentUser()
+
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', { credentials: 'include' })
+      window.location.href = '/signin'
+    } catch (_e) {}
+  }
 
   return (
     <>
@@ -193,24 +202,31 @@ export default function WellnessNavbar() {
                 </Button>
               </motion.div>
 
-              {/* Sign In/Register Button */}
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-              >
-                <Link href="/signin">
-                  <Button
-                    size="sm"
-                    className="hidden sm:flex items-center space-x-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-full px-4 shadow-lg"
-                  >
-                    <UserPlus className="w-4 h-4" />
-                    <span>Sign In / Register</span>
-                  </Button>
-                </Link>
-              </motion.div>
+              {/* Auth Section */}
+              {user ? (
+                <div className="flex items-center gap-2">
+                  <span className="hidden sm:inline text-sm text-gray-700 dark:text-gray-200">Hi, {user.name}</span>
+                  <Button size="sm" variant="outline" onClick={handleLogout}>Logout</Button>
+                </div>
+              ) : (
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                >
+                  <Link href="/signin">
+                    <Button
+                      size="sm"
+                      className="hidden sm:flex items-center space-x-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-full px-4 shadow-lg"
+                    >
+                      <UserPlus className="w-4 h-4" />
+                      <span>Sign In / Register</span>
+                    </Button>
+                  </Link>
+                </motion.div>
+              )}
 
               {/* Mobile Menu Button */}
               <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>

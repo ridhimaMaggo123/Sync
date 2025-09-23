@@ -69,8 +69,11 @@ router.post('/update', requireAuth, async (req, res) => {
     const reminderDaysArray = reminderDays || [3, 1];
     const notifications = [];
 
+    // Respect user's preferred hour of day
+    const prefHour = (user.notificationHour ?? 9)
     for (const daysBefore of reminderDaysArray) {
       const reminderDate = new Date(nextPeriod.getTime() - daysBefore * 24 * 60 * 60 * 1000);
+      reminderDate.setHours(prefHour, 0, 0, 0)
       
       // Only create reminder if it's in the future
       if (reminderDate > new Date()) {
@@ -212,10 +215,12 @@ router.post('/start-period', requireAuth, async (req, res) => {
 
     // Create new reminders
     const reminderDays = user.cycleInfo.reminderDays || [3, 1];
+    const prefHour2 = (user.notificationHour ?? 9)
     const notifications = [];
 
     for (const daysBefore of reminderDays) {
       const reminderDate = new Date(nextPeriod.getTime() - daysBefore * 24 * 60 * 60 * 1000);
+      reminderDate.setHours(prefHour2, 0, 0, 0)
       
       if (reminderDate > new Date()) {
         notifications.push({

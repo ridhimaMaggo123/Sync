@@ -34,7 +34,7 @@ export default function SignInPage() {
     }
 
     try {
-      const endpoint = isSignUp ? "/api/auth/signup" : "/api/auth/login";
+      const endpoint = isSignUp ? "/api/auth/register" : "/api/auth/login";
       const body = isSignUp 
         ? JSON.stringify({ name, email, password })
         : JSON.stringify({ email, password });

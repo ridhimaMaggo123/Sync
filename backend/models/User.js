@@ -21,6 +21,18 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Password is required'],
     minlength: [6, 'Password must be at least 6 characters']
   },
+  // Notification and cycle preferences
+  reminderDays: {
+    type: [Number],
+    default: [3, 1]
+  },
+  notificationHour: {
+    // 0-23 hour of day to send reminders
+    type: Number,
+    min: 0,
+    max: 23,
+    default: 9
+  },
   createdAt: {
     type: Date,
     default: Date.now

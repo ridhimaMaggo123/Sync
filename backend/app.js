@@ -43,6 +43,7 @@ app.use('/api/exercise', require('./routes/exercise'));
 app.use('/api/cycle', require('./routes/cycle'));
 app.use('/api/report', require('./routes/report'));
 app.use('/api/notifications', require('./routes/notifications'));
+app.use('/api/preferences', require('./routes/preferences'));
 
 // Start notification job
 if (process.env.NODE_ENV !== 'test') {

@@ -3,6 +3,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai"
 
 // Initialize Gemini AI
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "")
+const MODEL_NAME = process.env.GEMINI_MODEL || "gemini-2.0-flash"
 
 // Enhanced fallback responses based on symptom patterns
 const generateDynamicFallback = (symptoms: string, lifestyle: string) => {
@@ -118,7 +119,7 @@ export async function POST(request: NextRequest) {
     if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.length > 10) {
       try {
         console.log("Using Gemini API for dynamic analysis")
-        const model = genAI.getGenerativeModel({ model: "models/gemini-2.0-flash" })
+        const model = genAI.getGenerativeModel({ model: MODEL_NAME })
         
         const prompt = `As a hormone wellness expert, analyze these symptoms and lifestyle factors and provide personalized insights:
         

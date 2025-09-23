@@ -19,6 +19,8 @@ import {
   Cell,
 } from "recharts"
 import WellnessNavbar from "@/components/wellness-navbar"
+import { useCurrentUser } from "@/hooks/use-current-user"
+import { useEffect, useState } from "react"
 
 const healthData = [
   { month: "Jan", stress: 65, energy: 45, sleep: 70 },
@@ -36,6 +38,23 @@ const riskData = [
 ]
 
 export default function Dashboard() {
+  const { user } = useCurrentUser()
+  const [latestAnalysis, setLatestAnalysis] = useState<any | null>(null)
+  const [cycle, setCycle] = useState<{ nextPeriod?: string; daysUntilNext?: number } | null>(null)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [aRes, cRes] = await Promise.all([
+          fetch('/api/analyze/latest', { credentials: 'include' }),
+          fetch('/api/cycle/status', { credentials: 'include' }),
+        ])
+        if (aRes.ok) setLatestAnalysis(await aRes.json())
+        if (cRes.ok) setCycle(await cRes.json())
+      } catch {}
+    }
+    fetchData()
+  }, [])
   return (
     <>
       <WellnessNavbar />
@@ -53,9 +72,13 @@ export default function Dashboard() {
             <div className="flex justify-between items-center mb-8">
               <div>
                 <h1 className="text-4xl font-bold bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent">
-                  Health Dashboard
+                  {user ? `Welcome, ${user.name}` : 'Health Dashboard'}
                 </h1>
-                <p className="text-gray-600 dark:text-gray-300 mt-2">Track your hormonal health journey</p>
+                <p className="text-gray-600 dark:text-gray-300 mt-2">
+                  {cycle?.nextPeriod
+                    ? `Predicted next period: ${new Date(cycle.nextPeriod).toLocaleDateString()} (${cycle?.daysUntilNext} days)`
+                    : 'Track your hormonal health journey'}
+                </p>
               </div>
 
               <Button
@@ -193,36 +216,39 @@ export default function Dashboard() {
               >
                 <Card className="glass-card border-0 shadow-lg">
                   <CardHeader>
-                    <CardTitle>Risk Distribution</CardTitle>
-                    <CardDescription>Current health risk assessment</CardDescription>
+                    <CardTitle>Latest Analysis</CardTitle>
+                    <CardDescription>
+                      {latestAnalysis?.createdAt
+                        ? `From ${new Date(latestAnalysis.createdAt).toLocaleString()}`
+                        : 'Run a symptom analysis to see insights'}
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <ResponsiveContainer width="100%" height={300}>
-                      <PieChart>
-                        <Pie
-                          data={riskData}
-                          cx="50%"
-                          cy="50%"
-                          innerRadius={60}
-                          outerRadius={100}
-                          paddingAngle={5}
-                          dataKey="value"
-                        >
-                          {riskData.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={entry.color} />
-                          ))}
-                        </Pie>
-                        <Tooltip />
-                      </PieChart>
-                    </ResponsiveContainer>
-                    <div className="flex justify-center space-x-4 mt-4">
-                      {riskData.map((item, index) => (
-                        <div key={index} className="flex items-center">
-                          <div className="w-3 h-3 rounded-full mr-2" style={{ backgroundColor: item.color }} />
-                          <span className="text-sm">{item.name}</span>
-                        </div>
-                      ))}
-                    </div>
+                    {latestAnalysis?.aiInsights ? (
+                      <div className="space-y-3">
+                        {typeof latestAnalysis.aiInsights === 'string' ? (
+                          <p className="text-sm leading-6">{latestAnalysis.aiInsights}</p>
+                        ) : (
+                          <>
+                            {latestAnalysis.aiInsights.analysis && (
+                              <p className="text-sm leading-6">{latestAnalysis.aiInsights.analysis}</p>
+                            )}
+                            {Array.isArray(latestAnalysis.aiInsights.recommendations) && (
+                              <div>
+                                <p className="text-sm font-medium mb-2">Recommendations</p>
+                                <ul className="list-disc pl-5 text-sm space-y-1">
+                                  {latestAnalysis.aiInsights.recommendations.slice(0,5).map((r: string, i: number) => (
+                                    <li key={i}>{r}</li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                          </>
+                        )}
+                      </div>
+                    ) : (
+                      <p className="text-sm text-gray-500">No analysis yet.</p>
+                    )}
                   </CardContent>
                 </Card>
               </motion.div>
