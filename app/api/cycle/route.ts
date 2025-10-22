@@ -138,7 +138,8 @@ export async function POST(request: NextRequest) {
 
     // Store notifications in the notification system
     try {
-      await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/notifications`, {
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || process.env.RENDER_EXTERNAL_URL || 'http://localhost:3000'
+      await fetch(`${baseUrl}/api/notifications`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
