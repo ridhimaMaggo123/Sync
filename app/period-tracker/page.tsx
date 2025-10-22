@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
 import { Calendar, Heart, Bell, TrendingUp, Flower2, Sparkles } from "lucide-react"
 import WellnessNavbar from "@/components/wellness-navbar"
+import { useBrowserNotifications } from "@/hooks/use-browser-notifications"
 
 interface CycleData {
   lastPeriodStart: string
@@ -50,11 +51,32 @@ export default function PeriodTracker() {
   const [error, setError] = useState("")
   const [storedNotifications, setStoredNotifications] = useState<StoredNotification[]>([])
   const [showNotifications, setShowNotifications] = useState(false)
+  const { requestPermission, schedule, clearScheduled } = useBrowserNotifications()
+  const [browserNotifEnabled, setBrowserNotifEnabled] = useState<boolean>(typeof window !== 'undefined' && 'Notification' in window ? (Notification.permission === 'granted') : false)
 
   // Load existing notifications on component mount
   useEffect(() => {
     loadNotifications()
   }, [])
+
+  // Auto-schedule when notifications are loaded and permission already granted
+  useEffect(() => {
+    if (browserNotifEnabled && storedNotifications.length > 0) {
+      try {
+        const count = schedule(
+          storedNotifications.map(n => ({
+            title: n.title,
+            message: n.message,
+            triggerDate: n.triggerDate,
+          }))
+        )
+        // no-op: could surface count to UI if desired
+      } catch {}
+    }
+    return () => {
+      clearScheduled()
+    }
+  }, [browserNotifEnabled, storedNotifications, schedule, clearScheduled])
 
   const loadNotifications = async () => {
     try {
@@ -66,6 +88,24 @@ export default function PeriodTracker() {
     } catch (error) {
       console.warn('Failed to load notifications:', error)
     }
+  }
+
+  const enableBrowserNotifications = async () => {
+    try {
+      const res = await requestPermission()
+      if (res.supported && res.granted) {
+        setBrowserNotifEnabled(true)
+        if (storedNotifications.length > 0) {
+          schedule(
+            storedNotifications.map(n => ({
+              title: n.title,
+              message: n.message,
+              triggerDate: n.triggerDate,
+            }))
+          )
+        }
+      }
+    } catch {}
   }
 
   const markNotificationAsRead = async (notificationId: string) => {
@@ -119,6 +159,19 @@ export default function PeriodTracker() {
       
       // Reload notifications after prediction to show new cycle notifications
       await loadNotifications()
+
+      // If permission already granted, schedule new notifications
+      if (browserNotifEnabled && result?.notifications?.length) {
+        try {
+          schedule(
+            result.notifications.map((n: any) => ({
+              title: n.title || 'Cycle Reminder',
+              message: n.message,
+              triggerDate: n.triggerDate,
+            }))
+          )
+        } catch {}
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred")
     } finally {
@@ -215,6 +268,13 @@ export default function PeriodTracker() {
             <p className="text-gray-600 dark:text-gray-300 text-lg max-w-2xl mx-auto">
               Track your menstrual cycle and get personalized predictions and wellness recommendations
             </p>
+            <div className="mt-4 flex justify-center">
+              {!browserNotifEnabled && (
+                <Button variant="outline" onClick={enableBrowserNotifications} className="border-purple-300 text-purple-600 hover:bg-purple-50">
+                  Enable Browser Notifications
+                </Button>
+              )}
+            </div>
           </div>
 
           {/* Notifications Panel */}

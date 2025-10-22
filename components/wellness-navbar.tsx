@@ -8,6 +8,7 @@ import {
   Activity,
   BarChart3,
   Leaf,
+  Users,
   Moon,
   Search,
   Sun,
@@ -21,21 +22,48 @@ import {
   Calendar,
   Heart,
   Zap,
+  Shield,
+  BookOpen,
+  MoreHorizontal,
+  Watch,
 } from "lucide-react" // Added Heart and Zap icons
 import { Button } from "@/components/ui/button"
 import { useState, useEffect } from "react"
 import { useCurrentUser } from "@/hooks/use-current-user"
 import NotificationBell from "./notification-bell"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 const navItems = [
   { href: "/symptom-analyzer", label: "Analyzer", icon: Search },
-  { href: "/dashboard", label: "Dashboard", icon: BarChart3 },
+  { href: "/symptoms", label: "Symptoms", icon: Activity },
   { href: "/period-tracker", label: "Period", icon: Calendar },
+  { href: "/insights", label: "Insights", icon: BookOpen },
+  { href: "/progress", label: "Progress", icon: TrendingUp },
+  { href: "/phases", label: "Phases", icon: Waves },
   { href: "/remedies", label: "Remedies", icon: Leaf },
   { href: "/exercises", label: "Exercises", icon: Activity },
-  { href: "/progress", label: "Progress", icon: TrendingUp },
-  { href: "/contact", label: "Contact", icon: Mail }, // Added Contact link
+  { href: "/community", label: "Community", icon: Users },
+  { href: "/integrations", label: "Integrations", icon: Watch },
+  { href: "/modes", label: "Modes", icon: Zap },
+  { href: "/privacy", label: "Privacy", icon: Shield },
+  { href: "/contact", label: "Contact", icon: Mail },
 ]
+
+// Keep the most common actions visible; move others into a compact dropdown
+const visibleHrefs = new Set([
+  "/symptom-analyzer",
+  "/symptoms",
+  "/period-tracker",
+  "/insights",
+  "/progress",
+])
+const visibleNav = navItems.filter(n => visibleHrefs.has(n.href))
+const moreNav = navItems.filter(n => !visibleHrefs.has(n.href))
 
 export default function WellnessNavbar() {
   const { theme, setTheme } = useTheme()
@@ -59,7 +87,7 @@ export default function WellnessNavbar() {
         transition={{ duration: 0.8, delay: 0.2 }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+          <div className="flex items-center justify-between h-14">
             {/* Logo */}
             <Link href="/">
               <motion.div
@@ -138,17 +166,17 @@ export default function WellnessNavbar() {
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center space-x-1 flex-1 justify-center">
-              {navItems.map((item, index) => {
+              {visibleNav.map((item, index) => {
                 const Icon = item.icon
                 const isActive = pathname === item.href
 
                 return (
                   <Link key={item.href} href={item.href}>
                     <motion.div
-                      className={`relative px-4 py-2 rounded-full transition-all duration-300 ${
+                      className={`relative px-3 py-1.5 rounded-full transition-all duration-300 text-sm ${
                         isActive
-                          ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg"
-                          : "text-gray-600 dark:text-gray-300 hover:text-purple-500 hover:bg-purple-50/50 dark:hover:bg-purple-900/20"
+                          ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow"
+                          : "text-gray-600 dark:text-gray-300 hover:text-purple-600 hover:bg-purple-50/50 dark:hover:bg-purple-900/20"
                       }`}
                       whileHover={{ scale: 1.05, y: -2 }}
                       whileTap={{ scale: 0.95 }}
@@ -158,7 +186,7 @@ export default function WellnessNavbar() {
                     >
                       <div className="flex items-center space-x-2">
                         <Icon className="w-4 h-4" />
-                        <span className="font-medium text-sm">{item.label}</span>
+                        <span className="font-medium">{item.label}</span>
                       </div>
                       {isActive && (
                         <motion.div
@@ -173,6 +201,30 @@ export default function WellnessNavbar() {
                   </Link>
                 )
               })}
+
+              {/* More dropdown */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm" className="rounded-full px-2 py-1 text-gray-600 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-purple-900/20">
+                    <span className="sr-only">More</span>
+                    <MoreHorizontal className="w-5 h-5" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="center" className="w-56">
+                  {moreNav.map((item) => {
+                    const Icon = item.icon
+                    const isActive = pathname === item.href
+                    return (
+                      <Link key={item.href} href={item.href}>
+                        <DropdownMenuItem className={`flex items-center gap-2 ${isActive ? 'text-purple-600' : ''}`}>
+                          <Icon className="w-4 h-4" />
+                          <span>{item.label}</span>
+                        </DropdownMenuItem>
+                      </Link>
+                    )
+                  })}
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
 
             {/* Right Side Actions */}
